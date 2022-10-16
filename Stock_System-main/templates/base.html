@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- 提供 ico 檔案 -->
+    <link rel="icon" href="{{ url_for('static', filename='img/alpaca_logo.ico') }}">
+
+    <!-- 引入 cdn CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- 引入我們自己的 CSS -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}"> -->
+
+    <!-- 直接定義 CSS -->
+    <style>
+        table {
+            background-color: rgb(245, 245, 245);
+
+        }
+
+        tbody {
+            color: rgb(61, 61, 61);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #e9e9e9;
+        }
+
+        .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .topnav .search-container {
+            float: right;
+        }
+
+        .topnav input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+
+        .topnav .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .topnav .search-container button:hover {
+            background: #ccc;
+        }
+
+        .jumbotron {
+            background-color: #6CAAF6;
+        }
+
+        @media screen and (max-width: 600px) {
+            .topnav .search-container {
+                float: none;
+            }
+
+            .topnav a,
+            .topnav input[type=text],
+            .topnav .search-container button {
+                float: none;
+                display: block;
+                text-align: left;
+                width: 100%;
+                margin: 0;
+                padding: 14px;
+            }
+
+            .topnav input[type=text] {
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+
+    <!-- 可供更改的部分 -->
+    <title>{% block title %}{% endblock %}</title>
+
+</head>
+
+<body>
+
+    <script>
+        (function (document) {
+            'use strict';
+
+            // 建立 LightTableFilter
+            var LightTableFilter = (function (Arr) {
+
+                var _input;
+
+                // 資料輸入事件處理函數
+                function _onInputEvent(e) {
+                    _input = e.target;
+                    var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+                    Arr.forEach.call(tables, function (table) {
+                        Arr.forEach.call(table.tBodies, function (tbody) {
+                            Arr.forEach.call(tbody.rows, _filter);
+                        });
+                    });
+                }
+
+                // 資料篩選函數，顯示包含關鍵字的列，其餘隱藏
+                function _filter(row) {
+                    var text = row.textContent.toLowerCase(),
+                        val = _input.value.toLowerCase();
+                    row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+                }
+
+                return {
+                    // 初始化函數
+                    init: function () {
+                        var inputs = document.getElementsByClassName('light-table-filter');
+                        Arr.forEach.call(inputs, function (input) {
+                            input.oninput = _onInputEvent;
+                        });
+                    }
+                };
+            })(Array.prototype);
+
+            // 網頁載入完成後，啟動 LightTableFilter
+            document.addEventListener('readystatechange', function () {
+                if (document.readyState === 'complete') {
+                    LightTableFilter.init();
+                }
+            });
+
+        })(document);
+    </script>
+
+
+
+    <div class="jumbotron">
+        <div class="container">
+
+            <h1><b><a href="/" style="color:rgb(61, 61, 61);">股票查詢系統 </a></b></h1>
+
+
+            <form class="d-flex" method="GET" , action="stock">
+                <input type="search" class="light-table-filter" name="input" placeholder="輸入股票代碼" aria-label="Search" data-table="order-table">
+                <button class="btn btn btn-outline btn btn-secondary" type="submit" >Search</button>
+            </form>
+            <!--<input  type="button" name="Submit" class="btn btn btn-outline btn btn-secondary" value="顯示所有上市公司" onclick="javascript:onTopClick();" />
+            -->
+        </div>
+    </div>
+
+
+    <main>
+        <!-- 可供更改的部分 -->
+        {% block main %}{% endblock %}
+    </main>
+
+    <!-- 希望能固定出現在每個網頁的 footer -->
+    <footer>
+
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- 可供更改的部分 -->
+    {% block script %}{% endblock %}
+
+    <footer class="text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            資管碩一 陳沛慈、資管碩一 陳冠宇、資管碩一 李珮妤、醫資碩一 黃彥筑、醫資碩一 楊渝婷
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+</body>

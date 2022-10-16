@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+  a:link{
+  text-decoration:none;
+  color:#ffffff;
+  }
+  a:visited {
+  color:#ffffff;
+  }
+</style>
+<div class="container">
+  <div class="col">
+    <h1>{{stock_name}}</h1>
+    <!-- <p>
+      <img src="{{ img }}">
+    </p> -->
+    <hr>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <table>
+    <td>    
+      <form class="d-flex" method="GET" , action="">
+      <button class="btn btn btn-outline btn btn-secondary"  name="home" type="submit" style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+          href="/">回首頁</a></button>
+    </form>
+    </td>
+    <td>    
+      <form class="d-flex" method="GET" , action="stock/day">
+      <button class="btn btn btn-outline btn btn-secondary" name="stockday" type="submit"  style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+          href="/stock/day?input={{input}}">查詢歷史資料</a></button>
+    </form>
+    </td>
+
+    <td>    
+      <form class="d-flex" method="GET" , action="news">
+      <button class="btn btn btn-outline btn btn-secondary"  name="news" type="submit" style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+          href="/news?input={{input}}">查詢新聞</a></button>
+    </form>
+    </td>
+
+  </table>
+    <div class="chart" id="bargraph">
+      <script>
+        var graphs = {{ img2 | safe }};
+        Plotly.plot('bargraph', graphs, {});
+      </script>
+    </div>
+
+
+    {% endblock %}

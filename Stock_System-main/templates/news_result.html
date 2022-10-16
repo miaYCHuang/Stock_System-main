@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+        <div class="container">
+        <div class="col">
+        <h1 > {{stock_name}}新聞 </h1>
+        <hr>
+        <style>
+          .search a:link{
+          text-decoration:none;
+          color:#ffffff;
+          }
+          .search a:visited {
+          color:#ffffff;
+          }
+        </style>
+        <table class=search>
+          <td>    
+            <form class="d-flex" method="GET" , action="">
+            <button class="btn btn btn-outline btn btn-secondary"  name="home" type="submit" style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+                href="/">回首頁</a></button>
+          </form>
+          </td>
+            <td>    
+              <form class="d-flex" method="GET" , action="stock">
+              <button class="btn btn btn-outline btn btn-secondary" name="stock" type="submit"  style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+                  href="/stock?input={{input}}">查詢即時資料</a></button>
+            </form>
+            </td>
+        
+            <td>    
+              <form class="d-flex" method="GET" , action="stock/day">
+                <button class="btn btn btn-outline btn btn-secondary" name="stockday" type="submit"  style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+                    href="/stock/day?input={{input}}">查詢歷史資料</a></button>
+              </form>
+            </td>
+            
+          </table>
+          <br>
+          <table >
+            <tbody>
+              {% set len = title|length %}
+              {% for i in range(0,len)%}
+              <tr>
+                <td class="bookTitle"><a target="_blank" href= {{url[i]}} title="{{title[i]}}">{{title[i]}}</a></td>
+              </tr>
+              <!-- <tr class="bookWebURL" ><td>網站網址：{{url[i]}}</td></tr> -->
+              <tr class="bookImageURL" >
+                <td>時間：{{time[i]}}</td>
+              </tr>
+              
+            </tbody>
+            {% endfor%}
+          </table>
+        
+
+{% endblock %}

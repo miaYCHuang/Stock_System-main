@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="container">
+  <div class="col desc">
+    <div class="col">
+      <h2><i class="fas fa-kiwi-bird"></i>{{input_classes}}</h2>
+      <p> </p>
+      <table class="table table-borderless">
+
+        <!--上市項目-->
+        <tbody>
+
+
+         {% set count = stock_classes['Number']|length %}
+
+        </tbody>
+
+        <div class="list-group">
+          {% for n in range(0,count) %}
+
+          <a href="stock?input={{ stock_classes['Number'][n] }}" class="list-group-item list-group-item-action">{{ stock_classes['Number'][n] }}          {{ stock_classes['Name'][n] }}</a>
+          {% endfor %}
+        </div>
+      </table>
+      <p></p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

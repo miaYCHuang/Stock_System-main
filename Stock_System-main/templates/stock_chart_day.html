@@ -1,0 +1,307 @@
+{% extends "base1.html" %}
+
+{% block main %}
+
+<script src='https://cdn.plot.ly/plotly-2.0.0.min.js'></script>
+<div class="container">
+<div class="col">
+<h1>{{stock_name}}</h1>
+<hr>
+<style>
+    a:link{
+    text-decoration:none;
+    color:#ffffff;
+    }
+    a:visited {
+    color:#ffffff;
+    }
+  </style>
+<table>
+    <td>    
+        <form class="d-flex" method="GET" , action="">
+        <button class="btn btn btn-outline btn btn-secondary"  name="home" type="submit" style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+            href="/">回首頁</a></button>
+      </form>
+    </td>
+    <td>    
+      <form class="d-flex" method="GET" , action="stock">
+      <button class="btn btn btn-outline btn btn-secondary" name="stock" type="submit"  style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+          href="/stock?input={{input}}">查詢即時資料</a></button>
+    </form>
+    </td>
+
+    <td>    
+      <form class="d-flex" method="GET" , action="news">
+      <button class="btn btn btn-outline btn btn-secondary"  name="news" type="submit" style="width:150px;height:50px;border:0px;background-color: darkred;"> <a
+          href="/news?input={{input}}">查詢新聞</a></button>
+    </form>
+    </td>
+    
+  </table>
+  <br>
+   
+<div id="myDiv" style="width:1000px; height:auto; float:left; display:inline">   
+    <div id="dataid" d="{{lq}}">
+    <script>
+        var js_data = document.getElementById('dataid').getAttribute('d');
+        var close1=[];
+        var open1=[];
+        var high1=[];
+        var low1=[] ;
+        var date1=[];
+        js_data=js_data.replace("}","")    
+        //console.log(js_data);
+        dwk=js_data.split("@");
+        day=dwk[0].split("#");
+        for(var i=0;i<day.length;i++){
+            //console.log(day[i])
+            price=day[i].split(",");
+            //g.push(day[i]);
+            for(var j=0;j<price.length;j+=6){
+                //var num=Number(price[0])+Number(price[1]);
+                //console.log(price[4]+":"+num.toFixed(1));
+                close1.push(Number(price[0]));
+                open1.push(Number(price[3]));
+                high1.push(Number(price[2]));
+                low1.push(Number(price[1]));
+                date1.push(price[4]);
+
+            }
+        }
+
+        console.log(dwk.length)
+
+        var trace1 = {
+
+            x:date1, 
+            
+            close:close1, 
+            
+            decreasing: {line: {color: '#FF0000'}}, 
+            
+            high:high1, 
+            
+            increasing: {line: {color: '#227700'}}, 
+            
+            line: {color: 'rgba(31,119,180,1)'}, 
+            
+            low:low1, 
+            
+            open:open1, 
+            
+            type: 'candlestick', 
+            xaxis: 'x', 
+            yaxis: 'y'
+            };
+            var data = [trace1];
+            console.log(data) 
+            var layout = {
+            dragmode: 'zoom', 
+            plot_bgcolor: "#e6ecf6",
+            margin: {
+                r: 10, 
+                t: 25, 
+                b: 40, 
+                l: 60
+            }, 
+            showlegend: false, 
+            xaxis: {
+                autorange: true, 
+                domain: [0, 1], 
+                range: [date1[0], date1[length]], 
+                rangeslider: {range: [date1[0], date1[length]]}, 
+                title: '日線', 
+                type: 'date'
+            }, 
+            yaxis: {
+                autorange: true, 
+                domain: [0, 1], 
+                range: [114.609999778, 137.410004222], 
+                type: 'linear'
+            }
+            };
+            console.log("11111")
+            Plotly.newPlot('myDiv', data, layout); 
+        
+    </script> 
+    </div> 
+</div>
+<!-- 周線 -->
+<div id="myDiv1" style="width:1000px; height:auto; float:left; display:inline">   
+    <div id="dataid" d="{{lq}}">
+    <script>
+        var js_data = document.getElementById('dataid').getAttribute('d');
+        var close1=[];
+        var open1=[];
+        var high1=[];
+        var low1=[] ;
+        var date1=[];
+        js_data=js_data.replace("}","")    
+        //console.log(js_data);
+        dwk=js_data.split("@");
+        day=dwk[1].split("#");
+        for(var i=0;i<day.length;i++){
+            //console.log(day[i])
+            price=day[i].split(",");
+            //g.push(day[i]);
+            for(var j=0;j<price.length;j+=6){
+                //var num=Number(price[0])+Number(price[1]);
+                //console.log(price[4]+":"+num.toFixed(1));
+                close1.push(Number(price[0]));
+                open1.push(Number(price[3]));
+                high1.push(Number(price[2]));
+                low1.push(Number(price[1]));
+                date1.push(price[4]);
+
+            }
+        }
+
+        
+
+        var trace1 = {
+
+            x:date1, 
+            
+            close:close1, 
+            
+            decreasing: {line: {color: '#FF0000'}}, 
+            
+            high:high1, 
+            
+            increasing: {line: {color: '#227700'}}, 
+            
+            line: {color: 'rgba(31,119,180,1)'}, 
+            
+            low:low1, 
+            
+            open:open1, 
+            
+            type: 'candlestick', 
+            xaxis: 'x', 
+            yaxis: 'y'
+            };
+            var data = [trace1];
+            console.log(data) 
+            var layout = {
+            dragmode: 'zoom',
+            plot_bgcolor: "#e6ecf6", 
+            margin: {
+                r: 10, 
+                t: 25, 
+                b: 40, 
+                l: 60
+            }, 
+            showlegend: false, 
+            xaxis: {
+                autorange: true, 
+                domain: [0, 1], 
+                range: [date1[0], date1[length]], 
+                rangeslider: {range: [date1[0], date1[length]]}, 
+                title: '周線', 
+                type: 'date'
+            }, 
+            yaxis: {
+                autorange: true, 
+                domain: [0, 1], 
+                range: [114.609999778, 137.410004222], 
+                type: 'linear'
+            }
+            };
+            console.log("11111")
+            Plotly.newPlot('myDiv1', data, layout); 
+        
+    </script> 
+    </div> 
+</div>
+<!-- 月線 -->
+<div id="myDiv2" style="width: 1000px; height:auto; float:left; display:inline">   
+    <div id="dataid" d="{{lq}}">
+    <script>
+        var js_data = document.getElementById('dataid').getAttribute('d');
+        var close1=[];
+        var open1=[];
+        var high1=[];
+        var low1=[] ;
+        var date1=[];
+        js_data=js_data.replace("}","")    
+        //console.log(js_data);
+        dwk=js_data.split("@");
+        day=dwk[2].split("#");
+        for(var i=0;i<day.length;i++){
+            //console.log(day[i])
+            price=day[i].split(",");
+            //g.push(day[i]);
+            for(var j=0;j<price.length;j+=6){
+                //var num=Number(price[0])+Number(price[1]);
+                //console.log(price[4]+":"+num.toFixed(1));
+                close1.push(Number(price[0]));
+                open1.push(Number(price[3]));
+                high1.push(Number(price[2]));
+                low1.push(Number(price[1]));
+                date1.push(price[4]);
+
+            }
+        }
+
+        
+
+        var trace1 = {
+
+            x:date1, 
+            
+            close:close1, 
+            
+            decreasing: {line: {color: '#FF0000'}}, 
+            
+            high:high1, 
+            
+            increasing: {line: {color: '#227700'}}, 
+            
+            line: {color: 'rgba(31,119,180,1)'}, 
+            
+            low:low1, 
+            
+            open:open1, 
+            
+            type: 'candlestick', 
+            xaxis: 'x', 
+            yaxis: 'y'
+            };
+            var data = [trace1];
+            console.log(data) 
+            var layout = {
+            dragmode: 'zoom', 
+            plot_bgcolor: "#e6ecf6",
+            margin: {
+                r: 10, 
+                t: 25, 
+                b: 40, 
+                l: 60
+            }, 
+            showlegend: false, 
+            xaxis: {
+                autorange: true, 
+                domain: [0, 1], 
+                range: [date1[0], date1[length]], 
+                rangeslider: {range: [date1[0], date1[length]]}, 
+                title: '月線', 
+                type: 'date'
+            }, 
+            yaxis: {
+                autorange: true, 
+                domain: [0, 1], 
+                range: [114.609999778, 137.410004222], 
+                type: 'linear'
+            }
+            };
+            console.log("11111")
+            Plotly.newPlot('myDiv2', data, layout); 
+        
+    </script> 
+        
+    </div> 
+</div>
+
+{% endblock %}
+
+   
